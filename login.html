@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Univen FindIt</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #CCB491 0%, #CCB491 100%);
+            padding: 2rem;
+        }
+
+        .auth-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-logo .logo-text {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: #1C3F5C;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-logo p {
+            color: #666;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1C3F5C;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 1rem;
+            background: #1C3F5C;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .auth-button:hover {
+            background: #152A3F;
+        }
+
+        .auth-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 2rem;
+            color: #666;
+        }
+
+        .auth-link a {
+            color: #1C3F5C;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #c33;
+            display: none;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #363;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #363;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="logo-text">Univen FindIt</div>
+                <p>Lost & Found System</p>
+            </div>
+
+            <div class="error-message" id="error-message"></div>
+            <div class="success-message" id="success-message"></div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">University Email</label>
+                    <input type="email" id="login-email" placeholder="student@univen.ac.za" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="auth-button" id="login-button">
+                    <span id="login-text">Login to Account</span>
+                    <div id="login-spinner" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i> Logging in...
+                    </div>
+                </button>
+            </form>
+
+            <div class="auth-link">
+                <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+            </div>
+
+            <div class="auth-link">
+                <p><a href="index.html">← Back to Homepage</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ESSENTIAL SCRIPTS ONLY for login page -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    
+    <script src="firebase-config.js"></script>
+    <script src="database-service.js"></script>
+    <!-- DO NOT load main.js, recent-items.js, report.js, or account.js here -->
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('login-form');
+        const loginButton = document.getElementById('login-button');
+        const loginText = document.getElementById('login-text');
+        const loginSpinner = document.getElementById('login-spinner');
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+
+        // ✅ Wait for Firebase to confirm auth state
+        databaseService.onAuthStateChanged((user) => {
+            if (user) {
+                console.log("Already logged in:", user.email);
+
+                // Avoid redirect loop
+                if (!window.location.href.includes("index.html")) {
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 300);
+                }
+            }
+        });
+
+        loginForm.addEventListener("submit", async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById("login-email").value.trim();
+            const password = document.getElementById("login-password").value.trim();
+            
+            if (!email || !password) {
+                showError("Please fill in all fields");
+                return;
+            }
+
+            if (!email.includes("@")) {
+                showError("Please enter a valid email address");
+                return;
+            }
+
+            setLoadingState(true);
+
+            try {
+                await databaseService.login(email, password);
+                showSuccess("Login successful! Redirecting...");
+
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 1500);
+
+            } catch (error) {
+                showError(error.message);
+                setLoadingState(false);
+            }
+        });
+
+        function setLoadingState(loading) {
+            loginButton.disabled = loading;
+            loginText.style.display = loading ? "none" : "block";
+            loginSpinner.style.display = loading ? "block" : "none";
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = "block";
+            successMessage.style.display = "none";
+        }
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = "block";
+            errorMessage.style.display = "none";
+        }
+
+        // Clear messages while typing
+        ["login-email", "login-password"].forEach(id => {
+            document.getElementById(id).addEventListener("input", () => {
+                errorMessage.style.display = "none";
+                successMessage.style.display = "none";
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

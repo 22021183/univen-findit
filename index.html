@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Univen FindIt - Lost & Found</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Work+Sans:wght@300;400&family=Inter:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+ 
+    </head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo"><br></div>
+            <div class="logo-text">Univen FindIt</div>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-item">Home</div>
+            <div class="nav-item">User Guide</div>
+            <div class="nav-item">Report</div>
+            <div class="nav-item">Items</div>
+            <div class="nav-item">Contact</div>
+             <div class="nav-item">
+                    <i class="fas fa-user"></i>
+                </div>
+        </nav>
+    </header>
+    
+    <section class="hero-section">
+        <h1 class="search-title"></h1>
+        <div class="search-container">
+            <div class="search-box">
+    <i class="fas fa-search search-icon"></i>
+    <form action="search-results.html" method="GET" id="search-form">
+        <input type="text" name="q" class="search-input" placeholder="search for lost or found items" id="search-input">
+    </form>
+</div>
+            <p class="search-hint">Search by item name, category, or location</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3 class="feature-title">Search Items</h3>
+                <p class="feature-desc">Find lost or found items quickly</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <h3 class="feature-title">Report Item</h3>
+                <p class="feature-desc">Report a lost or found item</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <h3 class="feature-title">User Guide</h3>
+                <p class="feature-desc">Learn how to use the system</p>
+            </div>
+        </div>
+    </section>
+
+<!-- report section -->
+    <section class="report-section">
+    <div class="container">
+        <h2 class="report-header">Report</h2>
+        <p class="report-description">
+            Our university-wide lost and found system helps you stay on top of your missing belongings. 
+            Report lost items, and found ones, and utilize our campus location and category filters to streamline your experience
+        </p>
+        
+        <div class="report-tabs">
+            <div class="report-tab active" id="report-lost-tab">Report Lost Item</div>
+            <div class="report-tab" id="report-found-tab">Report Found Item</div>
+        </div>
+        
+        <div class="report-form-container">
+            <!-- Lost Item Form -->
+            <form class="report-form active" id="lost-item-form">
+                <div class="form-column">
+                    <h3 class="form-title">Title</h3>
+                    <input type="text" class="form-input" placeholder="Item Name" required>
+                    
+                    <h3 class="form-title">Category</h3>
+                    <select class="category-select" required>
+                        <option value="">Select a category</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="documents">Documents</option>
+                        <option value="other">Other</option>
+                    </select>
+                    
+                    <h3 class="form-title">Description</h3>
+                    <textarea class="textarea" placeholder="Describe your lost item in detail" required></textarea>
+                </div>
+                
+                <div class="form-column">
+                    <h3 class="form-title">Location</h3>
+                    <input type="text" class="form-input" placeholder="Lost at [Location]" id="lost-location-input" required>
+                    
+                    <h3 class="form-title">Date</h3>
+                    <input type="date" class="form-input" required>
+                    
+                    <h3 class="form-title">Contact Info</h3>
+                    <input type="text" class="form-input" placeholder="Email or phone number" required>
+                    
+                    <h3 class="form-title">Select Image</h3>
+                    <div class="image-upload" id="image-upload-lost">
+                        <input type="file" id="file-input-lost" accept="image/*" hidden>
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <p class="upload-text">Drag & drop your image here or click to browse</p>
+                        </div>
+                        <div class="preview-container" id="preview-container-lost"></div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-button">Submit Lost Item</button>
+            </form>
+            
+            <!-- Found Item Form -->
+            <form class="report-form" id="found-item-form">
+                <div class="form-column">
+                    <h3 class="form-title">Title</h3>
+                    <input type="text" class="form-input" placeholder="Item Name" required>
+                    
+                    <h3 class="form-title">Category</h3>
+                    <select class="category-select" required>
+                        <option value="">Select a category</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="documents">Documents</option>
+                        <option value="other">Other</option>
+                    </select>
+                    
+                    <h3 class="form-title">Description</h3>
+                    <textarea class="textarea" placeholder="Describe the found item in detail" required></textarea>
+                </div>
+                
+                <div class="form-column">
+                    <h3 class="form-title">Location</h3>
+                    <input type="text" class="form-input" placeholder="Found at [Location]" id="found-location-input" required>
+                    
+                    <h3 class="form-title">Date</h3>
+                    <input type="date" class="form-input" required>
+                    
+                    <h3 class="form-title">Contact Info</h3>
+                    <input type="text" class="form-input" placeholder="Email or phone number" required>
+                    
+                    <h3 class="form-title">Select Image</h3>
+                    <div class="image-upload" id="image-upload-found">
+                        <input type="file" id="file-input-found" accept="image/*" hidden>
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <p class="upload-text">Drag & drop your image here or click to browse</p>
+                        </div>
+                        <div class="preview-container" id="preview-container-found"></div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-button">Submit Found Item</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Recent Items Section -->
+<section class="recent-items">
+    <div class="recent-items-container">
+        <div class="recent-items-header">
+            <h2>Recent Items</h2>
+        </div>
+        <div class="items-grid" id="items-grid">
+            <!-- Empty state - shown when no items -->
+            <div class="empty-state" id="empty-state">
+                <i class="fas fa-box-open"></i>
+                <p>No recent items</p>
+                <small>Recently submitted items will appear here</small>
+            </div>
+            <!-- Items will be added here dynamically when uploaded -->
+        </div>
+    </div>
+</section>
+
+
+<!-- Contact Us Section -->
+<section class="contact-us-section">
+    <div class="contact-container">
+        <h2 class="contact-title">Contact us</h2>
+        <p class="contact-description">
+            If you have any questions or need assistance with our lost and found system, 
+            please don't hesitate to reach out. Our team is here to help you reconnect 
+            with your missing belongings
+        </p>
+        
+        <div class="contact-details">
+            <p class="contact-item"><strong>WhatsApp:</strong> 079 875 2137</p>
+            <p class="contact-item"><strong>Email:</strong> 23005291@mvula.univen.ac.za</p>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-logo">
+            <div class="logo-round">
+            
+            </div>
+            
+        </div>
+        <p class="copyright">© 2025 Univen FindIt<br>All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Essential scripts for index.html -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
+<script src="firebase-config.js"></script>
+<script src="database-service.js"></script>
+<script src="main.js"></script>
+
+<!-- Page-specific scripts for index.html ONLY -->
+<script src="recent-items.js"></script>
+<script src="report.js"></script>
+<!-- DO NOT load account.js on index.html -->      
+
+</body>
+</html>

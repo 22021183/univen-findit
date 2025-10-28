@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - Univen FindIt</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Work+Sans:wght@300;400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+   
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo"></div>
+            <div class="logo-text">Univen FindIt</div>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-item">Home</div>
+            <div class="nav-item">User Guide</div>
+            <div class="nav-item">Report</div>
+            <div class="nav-item">Items</div>
+            <div class="nav-item">Contact</div>
+            <div class="nav-item user-account">
+                <i class="fas fa-user"></i>
+                <span class="user-name-nav">Account</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="account-container">
+        <div class="account-sidebar">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h2 class="user-name">Full Names</h2>
+                    <p class="user-email">Email</p>
+                </div>
+            </div>
+            
+            <nav class="account-nav">
+                <a href="#" class="nav-link active" data-section="reports">
+                    <i class="fas fa-file-alt"></i>
+                    <span>My Reports</span>
+                </a>
+                <a href="#" class="nav-link" data-section="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                    <span class="notification-count">3</span>
+                </a>
+                <a href="#" class="nav-link" data-section="profile">
+                    <i class="fas fa-user-edit"></i>
+                    <span>Edit Profile</span>
+                </a>
+                <a href="#" class="nav-link" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            
+            <button class="logout-btn" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+
+        <div class="account-content">
+            <!-- My Reports Section -->
+            <section id="reports-section" class="content-section active">
+                <div class="section-header">
+                    <h1>My Reports</h1>
+                    <div class="report-filters">
+                        <button class="filter-btn active" data-filter="all">All Reports</button>
+                        <button class="filter-btn" data-filter="lost">Lost Items</button>
+                        <button class="filter-btn" data-filter="found">Found Items</button>
+                    </div>
+                </div>
+                
+                <div class="reports-grid" id="reports-grid">
+                    <!-- Reports will be loaded here dynamically -->
+                    <div class="empty-state" id="reports-empty">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>No Reports Yet</h3>
+                        <p>You haven't reported any lost or found items yet.</p>
+                        <a href="report.html" class="btn-primary">Report an Item</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notifications Section -->
+            <section id="notifications-section" class="content-section">
+                <div class="section-header">
+                    <h1>Notifications</h1>
+                    <button class="mark-all-read">Mark all as read</button>
+                </div>
+                
+                <div class="notifications-list">
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Item Match Found!</h4>
+                            <p>Your lost "Black Headphones" might match with a found item.</p>
+                            <span class="notification-time">2 hours ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Report Submitted</h4>
+                            <p>Your found item "Blue Water Bottle" has been published.</p>
+                            <span class="notification-time">1 day ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Welcome to Univen FindIt!</h4>
+                            <p>Thank you for joining our lost and found community.</p>
+                            <span class="notification-time">3 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit Profile Section -->
+            <section id="profile-section" class="content-section">
+                <div class="section-header">
+                    <h1>Edit Profile</h1>
+                </div>
+                
+                <form class="profile-form">
+                    <div class="form-group">
+                        <label for="profile-name">Full Name</label>
+                        <input type="text" id="profile-name" placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-email">Email Address</label>
+                        <input type="email" id="profile-email" placeholder="Enter your email" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-phone">Phone Number</label>
+                        <input type="tel" id="profile-phone" placeholder="Enter your phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-campus">Campus</label>
+                        <select id="profile-campus">
+                            <option value="univen">University of Venda</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Update Profile</button>
+                </form>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="content-section">
+                <div class="section-header">
+                    <h1>Settings</h1>
+                </div>
+                
+                <div class="settings-list">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Email Notifications</h4>
+                            <p>Receive email alerts for item matches</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>SMS Notifications</h4>
+                            <p>Receive SMS alerts for urgent matches</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Privacy Mode</h4>
+                            <p>Hide your contact info from public view</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+    <!-- Scripts - Load only once at the bottom -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <script src="firebase-config.js"></script>
+    <script src="database-service.js"></script>
+    <script src="main.js"></script>
+    <script src="account.js"></script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Univen FindIt</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #CCB491 0%, #CCB491 100%);
+            padding: 2rem;
+        }
+
+        .auth-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-logo .logo-text {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: #1C3F5C;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-logo p {
+            color: #666;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1C3F5C;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 1rem;
+            background: #1C3F5C;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .auth-button:hover {
+            background: #152A3F;
+        }
+
+        .auth-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 2rem;
+            color: #666;
+        }
+
+        .auth-link a {
+            color: #1C3F5C;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #c33;
+            display: none;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #363;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #363;
+            display: none;
+        }
+
+        .password-strength {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .strength-weak { color: #c33; }
+        .strength-medium { color: #c90; }
+        .strength-strong { color: #363; }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="logo-text">Univen FindIt</div>
+                <p>Create Your Account</p>
+            </div>
+
+            <div class="error-message" id="error-message"></div>
+            <div class="success-message" id="success-message"></div>
+
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-email">University Email</label>
+                    <input type="email" id="signup-email" placeholder="student@univen.ac.za" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password (min. 6 characters)" required>
+                    <div class="password-strength" id="password-strength"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-phone">Phone Number (Optional)</label>
+                    <input type="tel" id="signup-phone" placeholder="071 234 5678">
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-studentid">Student ID (Optional)</label>
+                    <input type="text" id="signup-studentid" placeholder="e.g., 23005291">
+                </div>
+                
+                <button type="submit" class="auth-button" id="signup-button">
+                    <span id="signup-text">Create Account</span>
+                    <div id="signup-spinner" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i> Creating Account...
+                    </div>
+                </button>
+            </form>
+
+            <div class="auth-link">
+                <p>Already have an account? <a href="login.html">Login here</a></p>
+            </div>
+
+            <div class="auth-link">
+                <p><a href="index.html">← Back to Homepage</a></p>
+            </div>
+        </div>
+    </div>
+
+<!-- Essential scripts ONLY for signup page -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+<script src="firebase-config.js"></script>
+<script src="database-service.js"></script>
+<!-- NO main.js or other page scripts -->
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupForm = document.getElementById('signup-form');
+            const signupButton = document.getElementById('signup-button');
+            const signupText = document.getElementById('signup-text');
+            const signupSpinner = document.getElementById('signup-spinner');
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            const passwordStrength = document.getElementById('password-strength');
+
+            // Check if user is already logged in
+           // Check if user is already logged in
+const currentUser = databaseService.getCurrentUser();
+if (currentUser) {
+    console.log('User already logged in, redirecting to home');
+    window.location.href = 'index.html';
+    return;
+}
+
+            // Password strength indicator
+            document.getElementById('signup-password').addEventListener('input', function() {
+                const password = this.value;
+                const strength = checkPasswordStrength(password);
+                passwordStrength.textContent = strength.text;
+                passwordStrength.className = `password-strength strength-${strength.level}`;
+            });
+
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const phone = document.getElementById('signup-phone').value;
+                const studentId = document.getElementById('signup-studentid').value;
+                
+                // Validation
+                if (!name || !email || !password) {
+                    showError('Please fill in all required fields');
+                    return;
+                }
+
+                if (!email.includes('@')) {
+                    showError('Please enter a valid email address');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    showError('Password must be at least 6 characters long');
+                    return;
+                }
+
+                // Show loading state
+                setLoadingState(true);
+
+                try {
+                    const userData = {
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        studentId: studentId,
+                        campus: 'Univen'
+                    };
+
+                    await databaseService.signUp(email, password, userData);
+                    showSuccess('Account created successfully! Redirecting...');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                    
+                } catch (error) {
+                    showError(error.message);
+                    setLoadingState(false);
+                }
+            });
+
+            function setLoadingState(loading) {
+                if (loading) {
+                    signupButton.disabled = true;
+                    signupText.style.display = 'none';
+                    signupSpinner.style.display = 'block';
+                } else {
+                    signupButton.disabled = false;
+                    signupText.style.display = 'block';
+                    signupSpinner.style.display = 'none';
+                }
+            }
+
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+            }
+
+            function showSuccess(message) {
+                successMessage.textContent = message;
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+            }
+
+            function checkPasswordStrength(password) {
+                if (password.length === 0) {
+                    return { level: 'none', text: '' };
+                }
+                if (password.length < 6) {
+                    return { level: 'weak', text: 'Weak password' };
+                }
+                if (password.length < 8) {
+                    return { level: 'medium', text: 'Medium strength' };
+                }
+                // Check for complexity
+                const hasUpperCase = /[A-Z]/.test(password);
+                const hasLowerCase = /[a-z]/.test(password);
+                const hasNumbers = /\d/.test(password);
+                const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+                
+                const complexityScore = [hasUpperCase, hasLowerCase, hasNumbers, hasSpecialChar].filter(Boolean).length;
+                
+                if (complexityScore >= 3 && password.length >= 8) {
+                    return { level: 'strong', text: 'Strong password' };
+                }
+                return { level: 'medium', text: 'Medium strength' };
+            }
+
+            // Clear errors when user starts typing
+            document.getElementById('signup-name').addEventListener('input', clearMessages);
+            document.getElementById('signup-email').addEventListener('input', clearMessages);
+            document.getElementById('signup-password').addEventListener('input', clearMessages);
+
+            function clearMessages() {
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

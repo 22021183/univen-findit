@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Univen FindIt - Search Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Work+Sans:wght@300;400&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="search-results.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    </head>
+<body>
+    <!-- Header with User Icon -->
+    <div class="header">
+        <div class="logo-container">
+            <div class="logo"><br></div>
+            <div class="logo-text">Univen FindIt</div>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-item">Home</div>
+            <div class="nav-item">User Guide</div>
+            <div class="nav-item">Report</div>
+            <div class="nav-item">Items</div>
+            <div class="nav-item">Contact</div>
+            <div class="nav-item">
+                    <i class="fas fa-user"></i>
+                </div>
+        </nav>
+    </div>
+    
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="search for lost or found items" id="search-input">
+            </div>
+            
+            <div class="items-tabs">
+                <div class="item-tab active" id="lost-tab">Items Lost</div>
+                <div class="item-tab" id="found-tab">Items Found</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Results Section -->
+    <section class="results-section">
+        <div id="no-results-message" class="no-results" style="display: none;">
+            <i class="fas fa-search"></i>
+            <p>No items found</p>
+            <p>Try a different search term or check back later</p>
+        </div>
+        
+        <table class="results-table" id="results-table">
+            <thead>
+                <tr>
+                    <th class="item-image-cell">Image</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody id="results-body">
+                <!-- Results will be populated here -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Item Detail Modal -->
+    <div class="modal" id="item-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            
+            <div class="back-button" id="back-button">
+                <i class="fas fa-arrow-left"></i>
+                <span id="back-text">Back to Items Lost</span>
+            </div>
+            
+            <div id="lost-item-detail">
+                <div class="item-detail-header">
+                    <div class="detail-image" id="detail-image-lost">
+                        <!-- Image will be inserted here -->
+                    </div>
+                    <div class="detail-info">
+                        <h2 class="detail-title" id="detail-title-lost"></h2>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Category</div>
+                                <div id="detail-category-lost"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Location</div>
+                                <div id="detail-location-lost"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Date</div>
+                                <div id="detail-date-lost"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Contact Info</div>
+                                <div id="detail-contact-lost"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Description</div>
+                    <div id="detail-description-lost"></div>
+                </div>
+                
+                <button class="action-button" id="report-found-btn">Report Found</button>
+            </div>
+            
+            <div id="found-item-detail" style="display: none;">
+                <div class="security-notice">
+                    For security reasons you can only view found items that match with your uploaded lost item
+                </div>
+                
+                <div id="match-notice" class="match-notice" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Item matches with uploaded lost item you reported
+                </div>
+                
+                <div class="item-detail-header">
+                    <div class="detail-image" id="detail-image-found">
+                        <!-- Image will be inserted here -->
+                    </div>
+                    <div class="detail-info">
+                        <h2 class="detail-title" id="detail-title-found"></h2>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Category</div>
+                                <div id="detail-category-found"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Location</div>
+                                <div id="detail-location-found"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Date</div>
+                                <div id="detail-date-found"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Description</div>
+                    <div id="detail-description-found"></div>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="detail-label">Contact Info</div>
+                    <div id="detail-contact-found"></div>
+                </div>
+                
+                <button class="action-button" id="claim-btn">Claim</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Info Popup -->
+    <div class="popup-overlay" id="contact-popup-overlay" style="display: none;"></div>
+    <div class="contact-popup" id="contact-popup" style="display: none;">
+        <h3>Contact Information</h3>
+        <div id="popup-contact-details"></div>
+        <p style="margin-top: 15px; font-style: italic; color: #666;">
+            Contact this user to arrange for item retrieval
+        </p>
+        <button class="action-button" style="margin-top: 20px; width: 100%;" id="close-popup">Close</button>
+    </div>
+
+<!-- Correct order for ALL pages -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
+<script src="firebase-config.js"></script>
+<script src="database-service.js"></script>
+<script src="main.js"></script> <!-- This should be before page-specific scripts -->
+
+<!-- Page-specific scripts -->
+<script src="search-results-script.js"></script>
+
+</body>
+</html>

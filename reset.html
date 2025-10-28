@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reset</title>
+</head>
+<body>
+    <h1>Authentication Reset</h1>
+    <button onclick="resetAuth()">Reset Authentication</button>
+    <button onclick="goHome()">Go to Home</button>
+    
+    <script>
+        function resetAuth() {
+            localStorage.clear();
+            sessionStorage.clear();
+            alert('Authentication reset!');
+            window.location.href = 'index.html';
+        }
+        
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
